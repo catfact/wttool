@@ -28,7 +28,7 @@ cxxopts::ParseResult parse(int argc, char *argv[]) {
                 ("n, length", "force output length (resampling)", cxxopts::value<int>()->default_value("0"))
                 ("p, poweroftwo", "make output length a power of two", cxxopts::value<bool>()->default_value("false"))
                 ("s, supercollider", "use SuperCollider format", cxxopts::value<bool>()->default_value("false"))
-                ("t, interpolation", "interpolation order (if resampling)", cxxopts::value<int>()->default_value("3"))
+                ("t, interpolation", "interpolation order (if resampling)", cxxopts::value<int>()->default_value("1"))
                 ("z, zero", "trim to zero-crossings", cxxopts::value<bool>()->default_value("false"));
         return options.parse(argc, argv);
     } catch (const cxxopts::OptionException &e) {
