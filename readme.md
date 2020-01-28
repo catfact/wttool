@@ -40,13 +40,13 @@ this will process one input file to one output file.
 
 `wttool` accepts a number of arguments. each can take a short form or a long form, and all have defaults:
 
-`-i`, `--input` : path to input file (default `input.wav`)
-`-o`, `--output` : path to output file (defult `output.wav`)
-`-n`, `--length` : output length in samples (default 0 == same as input)
-`-t`, `--interpolation` : sets the interpolation order. "0" is sample-and-hold, "1" is linear, "2" is cubic. (sinc and others not yet implemented.)
-`-p`, `--poweroftwo` : flag; if set, `wttool` will round the output frame count up to the next power of two. (default: false)
-`-s`, `--supercollider` : flag; if set, `wttool` will
-`-z`, `--zero` : flag; if set, will trim start and end points of output file to the first/last "zero crossing" (defined here as the first sample that is within (2x float-epsilon) of zero.)
+- `-i`, `--input` : path to input file (default `input.wav`)
+- `-o`, `--output` : path to output file (defult `output.wav`)
+- `-n`, `--length` : output length in samples (default 0 == same as input)
+- `-t`, `--interpolation` : sets the interpolation order. "0" is sample-and-hold, "1" is linear, "2" is cubic. (sinc and others not yet implemented.)
+- `-p`, `--poweroftwo` : flag; if set, `wttool` will round the output frame count up to the next power of two. (default: false)
+- `-s`, `--supercollider` : flag; if set, `wttool` will
+- `-z`, `--zero` : flag; if set, will trim start and end points of output file to the first/last "zero crossing" (defined here as the first sample that is within (2x float-epsilon) of zero.)
 
 ## examples
 
