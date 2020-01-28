@@ -45,15 +45,14 @@ this will process one input file to one output file.
 - `-n`, `--length` : output length in samples (default 0 == same as input)
 - `-t`, `--interpolation` : sets the interpolation order. "0" is sample-and-hold, "1" is linear, "2" is cubic. (sinc and others not yet implemented.)
 - `-p`, `--poweroftwo` : flag; if set, `wttool` will round the output frame count up to the next power of two. (default: false)
-- `-s`, `--supercollider` : flag; if set, `wttool` will
+  - `-s`, `--supercollider` : flag; if set, `wttool` will convert the output to SuperCollider's "position, delta" format. (incidentally doubling the frame count.)
 - `-z`, `--zero` : flag; if set, will trim start and end points of output file to the first/last "zero crossing" (defined here as the first sample that is within (2x float-epsilon) of zero.)
 
 ## examples
 
 `wttool --input AKWF_sinharm_0001.wav --output AKWF_sinharm_0001_sc.wav --interpolation 1 --poweroftwo --supercollider`
 
-
-the [AKWF collection](https://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/) is a well-known library of single-cycle waveforms. unfortunately they are all 600 samples long, so it has historically been painful to use them as sources for SuperCollider synths. this command converts one of the AKWF files to the next power of two (1024), using linear interpolation, and converts the output to SuperCollider format.
+the [AKWF collection](https://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/) is a well-known library of single-cycle waveforms. unfortunately they are all 600 samples long, so it has historically been painful to use them as sources for SuperCollider synths. this command converts one of the AKWF files to the next power of two (1024), using linear interpolation, and converts the output to SuperCollider format, so it can be loaded directly to a `Buffer` for immediate use with `Osc` or `VOsc`.
 
 ## other notes
 
