@@ -116,7 +116,7 @@ vector<float> resample(const vector<float> &inBuf, int outputFrames, const Inter
 }
 
 // convert float vector to position-delta format, returning new vector of 2x size
-vector<float> makePosDelta(vector<float> in) {
+vector<float> convertToScWavetable(vector<float> in) {
     size_t framesIn = in.size();
     size_t framesOut = framesIn * 2;
     vector<float> out(framesOut);
@@ -124,6 +124,7 @@ vector<float> makePosDelta(vector<float> in) {
         out[i*2] = in[i];
         out[i*2 + 1] = in[(i+1)%framesIn] - in[i];
     }
+    return out;
 }
 
 size_t nextPowerOfTwo(size_t x) {
@@ -197,6 +198,10 @@ int main(int argc, char *argv[]) {
 
     std::vector<float> outBuf;
 
+    if (args["zero"].as<bool>()) {
+        inBuf = trimToZeros(inBuf);
+    }
+
     if (outFrames == inFrames) {
         outBuf = inBuf;
     } else {
@@ -214,6 +219,11 @@ int main(int argc, char *argv[]) {
                 break;
         }
         outBuf = resample(inBuf, outFrames, interpFunc);
+    }
+
+
+    if (args["supercollider"].as<bool>()) {
+        outBuf = convertToScWavetable(outBuf);
     }
 
     writeBuffer(args["output"].as<string>(), outBuf, format, sr);
