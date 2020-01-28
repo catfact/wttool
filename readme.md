@@ -10,14 +10,14 @@ the first limitation of `Osc` et al, is that the size of their buffers must be a
 
 if that can be provided, it is still hugely inconvenient to convert external sound files to the "position, delta" format within SuperCollider.
 
-this tool does those things painlessly. 
+this tool aims to eliminate this pain point. 
 
 it might be profitably expanded in future to accomodate other unusual output formats, or to add features like multisampling.
 
 
 ## building
 
-requires `libsndfile`. 
+requires `libsndfile`, cmake, and a c++ compiler supporting c++14.
 
 build using cmake. the canonical steps for an out-of-tree build apply:
 
@@ -53,6 +53,15 @@ this will process one input file to one output file.
 `wttool --input AKWF_sinharm_0001.wav --output AKWF_sinharm_0001_sc.wav --interpolation 1 --poweroftwo --supercollider`
 
 
-the [AKWF collection]() is a well-known library of single-cycle waveforms. unfortunately they are all 600 samples long, so it has historically been painful to use them as sources for SuperCollider synths. this command converts one of the AKWF files to the next power of two (1024), using linear interpolation, and converts the output to SuperCollider format.
+the [AKWF collection](https://www.adventurekid.se/akrt/waveforms/adventure-kid-waveforms/) is a well-known library of single-cycle waveforms. unfortunately they are all 600 samples long, so it has historically been painful to use them as sources for SuperCollider synths. this command converts one of the AKWF files to the next power of two (1024), using linear interpolation, and converts the output to SuperCollider format.
 
 ## other notes
+
+- output format is currently always the same as input format. (e.g. WAV, RAW).
+- all formats supported by `libsndfile` should work. (basically everything but mp3, which requires a license.)
+- linear interpolation is the default, because cubic interpolation can cause overshoot.
+- if overshoot does occur, output should be clamped to [-1, 1] rather than wrapping.
+
+## contributing
+
+- contributions (github PRs) and bug reports (github issues) are welcome!
