@@ -1,0 +1,3 @@
+[submodule "lib/kissfft"]
+	path = lib/kissfft
+	url = https://github.com/mborgerding/kissfft.git
