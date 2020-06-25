@@ -6,13 +6,26 @@
 #ifndef WTTOOL_MULTI_HPP
 #define WTTOOL_MULTI_HPP
 
+
+// standard
+#include <filesystem>
 #include <memory>
+
+// 3rd-party
 #include "kiss_fftr.h"
 
-class DftData {
-  int nbins; // number of real bins
-  std::unique_ptr<kiss_fft_cpx[]> data;
+// local
+#include "io.hpp"
 
+// static float norm(const kiss_fft_cpx& kiss_cpx) {
+//  return std::norm(std::complex<float>(kiss_cpx.r, kiss_cpx.i));
+//}
+
+namespace wttool {
+class DftData {
+  // number of real bins
+  int nbins;
+  std::unique_ptr<kiss_fft_cpx[]> data;
 private:
   void init(int nb) {
     nbins = nb;
@@ -20,13 +33,12 @@ private:
   }
 
 public:
-  // construct an empty DftData given number of bins
+  // construct an empty DftData given number of frames
   DftData(int n) { init(n); }
-
 
   // construct a DftData with analysis of an audio buffer
   // frame count must be even!
-  DftData(const float* buf, int nframes) {
+  DftData(const float *buf, int nframes) {
     assert(nframes % 2 == 0);
     int nfft = nframes;
     int nb = nfft / 2 + 1;
@@ -34,13 +46,13 @@ public:
     // perform the transform
     kiss_fftr_cfg cfg = kiss_fftr_alloc(nfft, 0, 0, 0);
     kiss_fftr(cfg, buf, data.get());
-    free(cfg);
+    kiss_fftr_free(cfg);
+    kiss_fft_cleanup();
   }
-
 
   // brickwall copy constructor
   // accepts original dft data structure and highest bin number
-  DftData (DftData &original, int highestBin) {
+  DftData(DftData &original, int highestBin) {
     init(original.nbins);
     kiss_fft_cpx *src = original.data.get();
     kiss_fft_cpx *dst = data.get();
@@ -53,18 +65,67 @@ public:
     }
   }
 
-  void output(float* buf, int nframes) {
-    int nfft = (nbins-1) * 2;
-    assert (nframes == nfft);
-    kiss_fftr_cfg cfg = kiss_fftr_alloc(nfft, 1, 0, 0);
-    kiss_fftri(cfg, data.get(), buf);
-    free(cfg);
-    kiss_fft_cleanup();
+
+  // brickwall copy constructor
+  // accepts original dft data structure and highest bin number
+  DftData(DftData &original) {
+    init(original.nbins);
+    memcpy(data.get(), original.data.get(), sizeof(kiss_fft_cpx) * nbins);
   }
 
+  void output(float *buf, int nframes) {
+    int nfft = (nbins - 1) * 2;
+    assert(nframes == nfft);
+    kiss_fftr_cfg cfg = kiss_fftr_alloc(nfft, 1, 0, 0);
+    kiss_fftri(cfg, data.get(), buf);
+    kiss_fftr_free(cfg);
+    kiss_fft_cleanup();
+
+    float scale = 1.f / static_cast<float>(nfft);
+    for (int i=0; i<nfft; ++i) {
+      buf[i] *= scale;
+    }
+  }
+
+  void write(const std::string &path, int format) {
+    int nf = (nbins - 1) * 2;
+    std::vector<float> buf(nf);
+    output(buf.data(), nf);
+    writeBuffer(path, buf, format, nf);
+  }
+
+  int numBins() { return nbins; }
 };
 
+// export a series of bandlimited waveforms
+static void multi_perform(float *input, int nframes,
+                          int count, float interval,
+                    const std::string &outputFile, int format) {
 
+  auto outputFilePath = std::filesystem::path(outputFile);
+  auto ext = outputFilePath.extension();
+  auto stem = outputFilePath.stem();
+  auto location = outputFilePath.parent_path();
+  std::string basePath(location);
+  basePath.append(stem);
 
+  DftData baseData(input, nframes);
+  int nbins = baseData.numBins();
+  float topBin = static_cast<float>(nbins);
+
+  for (int i = 0; i < count; ++i) {
+    topBin /= interval;
+    int topBinIdx = std::max(0, static_cast<int>(topBin)-1);
+    std::cout << "top bin index: " << topBinIdx << std::endl;
+    DftData filteredData(baseData, topBinIdx);
+    std::string fileName(basePath);
+    fileName.append("_");
+    fileName.append(std::to_string(i+1));
+    fileName.append(ext);
+    filteredData.write(fileName, format);
+  }
+}
+
+} // namespace wttool
 
 #endif // WTTOOL_MULTI_HPP
