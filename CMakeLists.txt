@@ -5,7 +5,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(wttool)
 
-add_executable(wttool main.cpp)
+add_executable(wttool
+        main.cpp
+        lib/kissfft/kiss_fft.c
+        lib/kissfft/tools/kiss_fftr.c
+        )
 
 if(UNIX)
     if(APPLE)

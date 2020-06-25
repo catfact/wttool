@@ -8,7 +8,6 @@
 #include "cxxopts.hpp"
 #include "headers.hpp"
 
-
 namespace wttool {
 
 cxxopts::ParseResult parse(int argc, char *argv[]) {
@@ -30,7 +29,9 @@ cxxopts::ParseResult parse(int argc, char *argv[]) {
         "t, interpolation", "interpolation order (if resampling)",
         cxxopts::value<int>()->default_value("1"))(
         "z, zero", "trim to zero-crossings",
-        cxxopts::value<bool>()->default_value("false"));
+        cxxopts::value<bool>()->default_value("false"))(
+        "m, multi", "multisample octave count",
+        cxxopts::value<int>()->default_value("0"));
     return options.parse(argc, argv);
   } catch (const cxxopts::OptionException &e) {
     cout << "error parsing options: " << e.what() << endl;
@@ -38,7 +39,6 @@ cxxopts::ParseResult parse(int argc, char *argv[]) {
   }
 }
 
-}
-
+} // namespace wttool
 
 #endif // WTTOOL_ARGS_HPP

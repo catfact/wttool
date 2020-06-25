@@ -2,6 +2,7 @@
 #include "buffer_operations.hpp"
 #include "interpolate.hpp"
 #include "io.hpp"
+#include "multi.hpp"
 
 using namespace wttool;
 
@@ -62,6 +63,18 @@ int main(int argc, char *argv[]) {
 
     if (args["supercollider"].as<bool>()) {
         outBuf = convertToScWavetable(outBuf);
+    }
+
+    int multi = args["multi"].as<int>();
+    if (multi) {
+      // TODO...
+      /// testing...
+      DftData dftd(outBuf.data(), outFrames);
+
+      //auto outBufMult = std::make_unique<float[]>(outFrames);
+      vector<float> outBufMult(outFrames);
+      dftd.output(outBufMult.data(), outFrames);
+      writeBuffer("multiOutTest.wav", outBufMult, format, sr);
     }
 
     writeBuffer(args["output"].as<string>(), outBuf, format, sr);
