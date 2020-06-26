@@ -17,7 +17,7 @@ this tool aims to eliminate this pain point.
 
 as a sort of bonus, i've added a basic "multi-sampling" feature. this produces multiple copies of the waveform with successively higher frequencies removed, making them suitable for use in a band-limited wavetable synth.
 
-nigel redmond has an excellent description of the bandlimited-wavetable method on his [earlevel.com]() blog. 
+nigel redmond has an excellent description of the bandlimited-wavetable method on his [earlevel.com](https://www.earlevel.com/main/2013/03/03/replicating-wavetables/) blog. 
 
 ## building
 
@@ -51,8 +51,8 @@ this will process one input file to one or more output files.
 - `-p`, `--poweroftwo` : flag; if set, `wttool` will round the output frame count up to the next power of two. (default: false)
 - `-s`, `--supercollider` : flag; if set, `wttool` will convert the output to SuperCollider's "position, delta" format. (incidentally doubling the frame count.)
 - `-z`, `--zero` : flag; if set, will trim start and end points of output file to the first/last "zero crossing" (defined here as the first sample that is within (2x float-epsilon) of zero.)
-- `-m`, `--multi_count` : number of multi-sampled variants to create. a suffix is 
-- `-v`, `--multi_interval` : multi-sampling interval, in 
+- `-m`, `--multi_count` : number of multi-sampled variants to create. the 1-based interval number is appended to the base output filename for each bandlimited file.
+- `-v`, `--multi_interval` : spacing of lowpass cutoff frequencies, in intervals per octave
 
 ## examples
 
