@@ -32,7 +32,7 @@ cxxopts::ParseResult parse(int argc, char *argv[]) {
         cxxopts::value<bool>()->default_value("false"))(
         "m, multi_count", "multisample interval count",
         cxxopts::value<int>()->default_value("0"))(
-        "f, multi_interval", "multisample intervals per octave",
+        "v, multi_interval", "multisample intervals per octave",
         cxxopts::value<int>()->default_value("1"));
     return options.parse(argc, argv);
   } catch (const cxxopts::OptionException &e) {

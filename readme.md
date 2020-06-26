@@ -8,16 +8,20 @@ the main motivator for this tool is a need to convert arbitrary sound files to t
 
 the first limitation of `Osc` et al, is that the size of their buffers must be a power of two.
 
-if that can be provided, it is still hugely inconvenient to convert external sound files to the "position, delta" format within SuperCollider.
+if that can be provided, it is still inconvenient to convert external sound files to the "position, delta" format within SuperCollider.
 
 this tool aims to eliminate this pain point. 
 
-it might be profitably expanded in future to accomodate other unusual output formats, or to add features like multisampling.
 
+## multisampling 
+
+as a sort of bonus, i've added a basic "multi-sampling" feature. this produces multiple copies of the waveform with successively higher frequencies removed, making them suitable for use in a band-limited wavetable synth.
+
+nigel redmond has an excellent description of the bandlimited-wavetable method on his [earlevel.com]() blog. 
 
 ## building
 
-requires `libsndfile`, cmake, and a c++ compiler supporting c++14.
+requires `libsndfile`, cmake, and a c++ compiler supporting c++17.
 
 build using cmake. the canonical steps for an out-of-tree build apply:
 
@@ -36,7 +40,7 @@ tested with linux and macOS.
 
 `wttool <options>`
 
-this will process one input file to one output file.
+this will process one input file to one or more output files.
 
 `wttool` accepts a number of arguments. each can take a short form or a long form, and all have defaults:
 
@@ -45,8 +49,10 @@ this will process one input file to one output file.
 - `-n`, `--length` : output length in samples (default 0 == same as input)
 - `-t`, `--interpolation` : sets the interpolation order. "0" is sample-and-hold, "1" is linear, "2" is cubic. (sinc and others not yet implemented.)
 - `-p`, `--poweroftwo` : flag; if set, `wttool` will round the output frame count up to the next power of two. (default: false)
-  - `-s`, `--supercollider` : flag; if set, `wttool` will convert the output to SuperCollider's "position, delta" format. (incidentally doubling the frame count.)
+- `-s`, `--supercollider` : flag; if set, `wttool` will convert the output to SuperCollider's "position, delta" format. (incidentally doubling the frame count.)
 - `-z`, `--zero` : flag; if set, will trim start and end points of output file to the first/last "zero crossing" (defined here as the first sample that is within (2x float-epsilon) of zero.)
+- `-m`, `--multi_count` : number of multi-sampled variants to create. a suffix is 
+- `-v`, `--multi_interval` : multi-sampling interval, in 
 
 ## examples
 
