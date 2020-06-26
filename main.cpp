@@ -71,15 +71,6 @@ int main(int argc, char *argv[]) {
       int multiInterval = args["multi_interval"].as<int>();
       float ratio = std::powf(2.f, 1.f / static_cast<float>(multiInterval + 1));
       multi_perform(outBuf.data(), outFrames, multiCount, ratio, outputPath, format);
-//
-//      // TODO...
-//      /// testing...
-//      DftData dftd(outBuf.data(), outFrames);
-//
-//      //auto outBufMult = std::make_unique<float[]>(outFrames);
-//      vector<float> outBufMult(outFrames);
-//      dftd.output(outBufMult.data(), outFrames);
-//      writeBuffer("multiOutTest.wav", outBufMult, format, sr);
     }
 
     writeBuffer(outputPath, outBuf, format, sr);

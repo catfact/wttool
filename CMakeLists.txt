@@ -11,7 +11,6 @@ add_executable(wttool
         lib/kissfft/tools/kiss_fftr.c
         )
 
-
 add_executable(test_fftr
         test/test_fftr_main.cpp
         lib/kissfft/kiss_fft.c

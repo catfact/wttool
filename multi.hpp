@@ -17,10 +17,6 @@
 // local
 #include "io.hpp"
 
-// static float norm(const kiss_fft_cpx& kiss_cpx) {
-//  return std::norm(std::complex<float>(kiss_cpx.r, kiss_cpx.i));
-//}
-
 namespace wttool {
 class DftData {
   // number of real bins
@@ -47,7 +43,6 @@ public:
     kiss_fftr_cfg cfg = kiss_fftr_alloc(nfft, 0, 0, 0);
     kiss_fftr(cfg, buf, data.get());
     kiss_fftr_free(cfg);
-    kiss_fft_cleanup();
   }
 
   // brickwall copy constructor
@@ -79,7 +74,6 @@ public:
     kiss_fftr_cfg cfg = kiss_fftr_alloc(nfft, 1, 0, 0);
     kiss_fftri(cfg, data.get(), buf);
     kiss_fftr_free(cfg);
-    kiss_fft_cleanup();
 
     float scale = 1.f / static_cast<float>(nfft);
     for (int i=0; i<nfft; ++i) {
