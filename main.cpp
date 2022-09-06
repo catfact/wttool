@@ -71,8 +71,8 @@ int main(int argc, char *argv[]) {
       int multiInterval = args["multi_interval"].as<int>();
       float ratio = std::powf(2.f, 1.f / static_cast<float>(multiInterval + 1));
       multi_perform(outBuf.data(), outFrames, multiCount, ratio, outputPath, format);
+    } else {
+        writeBuffer(outputPath, outBuf, format, sr);
     }
-
-    writeBuffer(outputPath, outBuf, format, sr);
     return 0;
 }

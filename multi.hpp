@@ -100,15 +100,15 @@ static void multi_perform(float *input, int nframes,
   auto ext = outputFilePath.extension();
   auto stem = outputFilePath.stem();
   auto location = outputFilePath.parent_path();
-  std::string basePath(location);
-  basePath.append(stem);
+  auto basePath = location / stem;
+  // std::string basePath(location);
+  // basePath.append(stem);
 
   DftData baseData(input, nframes);
   int nbins = baseData.numBins();
   float topBin = static_cast<float>(nbins);
 
   for (int i = 0; i < count; ++i) {
-    topBin /= interval;
     int topBinIdx = std::max(0, static_cast<int>(topBin)-1);
     std::cout << "top bin index: " << topBinIdx << std::endl;
     DftData filteredData(baseData, topBinIdx);
@@ -117,6 +117,7 @@ static void multi_perform(float *input, int nframes,
     fileName.append(std::to_string(i+1));
     fileName.append(ext);
     filteredData.write(fileName, format);
+    topBin /= interval;
   }
 }
 
