@@ -14,7 +14,7 @@ vector<float> resample(const vector<float> &inBuf, int outputFrames,
                        const InterpFunc &interpFunc) {
   vector<float> outBuf(outputFrames);
   double ratio =
-      static_cast<double>(inBuf.size()) / static_cast<double>(outputFrames);
+      static_cast<double>(inBuf.size()-1) / static_cast<double>(outputFrames-1);
   for (size_t outFrame = 0; outFrame < outputFrames; ++outFrame) {
     outBuf[outFrame] = interpFunc(inBuf, outFrame, ratio);
   }

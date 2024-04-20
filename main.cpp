@@ -50,6 +50,7 @@ int main(int argc, char *argv[]) {
                 interpFunc = interpHold;
                 break;
             case 1:
+                // std::cout << "linear interpolation\n";
                 interpFunc = interpLinear;
                 break;
             case 2:
