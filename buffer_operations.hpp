@@ -26,10 +26,14 @@ vector<float> convertToScWavetable(vector<float> in) {
   size_t framesIn = in.size();
   size_t framesOut = framesIn * 2;
   vector<float> out(framesOut);
-  for (size_t i = 0; i < framesIn; ++i) {
-    out[i * 2] = in[i];
-    out[i * 2 + 1] = in[(i + 1) % framesIn] - in[i];
-  }
+  const float *src = in.data();
+  float *dst = out.data();
+    for (size_t i = 0; i < framesIn; ++i) {
+        float a = src[i];
+        float b = src[(i + 1) % framesIn];
+        *dst++ = 2.f * a - b;
+        *dst++ = b - a;
+    }
   return out;
 }
 

@@ -11,19 +11,21 @@ add_executable(wttool
         lib/kissfft/tools/kiss_fftr.c
         )
 
-if(UNIX)
-    if(APPLE)
+if (UNIX)
+    if (APPLE)
         target_include_directories(wttool PRIVATE /opt/local/include)
         target_link_directories(wttool PRIVATE /opt/local/lib)
-    else()
-        target_link_libraries(wttool sndfile)
-    endif()
+    endif ()
     target_link_libraries(wttool sndfile)
-else()
+else ()
     # no windows yet
-endif()
+endif ()
 
-include_directories(
+target_include_directories(wttool PRIVATE
         lib
         lib/kissfft
-        lib/kissfft/tools)
+        lib/kissfft/tools
+        )
+
+
+add_subdirectory(test)
