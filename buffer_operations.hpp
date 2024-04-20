@@ -13,8 +13,9 @@ namespace wttool {
 vector<float> resample(const vector<float> &inBuf, int outputFrames,
                        const InterpFunc &interpFunc) {
   vector<float> outBuf(outputFrames);
-  double ratio =
-      static_cast<double>(inBuf.size()-1) / static_cast<double>(outputFrames-1);
+  // double ratio = static_cast<double>(inBuf.size()) / static_cast<double>(outputFrames);
+  // ? hm.
+  double ratio = static_cast<double>(inBuf.size()-1) / static_cast<double>(outputFrames-1);
   for (size_t outFrame = 0; outFrame < outputFrames; ++outFrame) {
     outBuf[outFrame] = interpFunc(inBuf, outFrame, ratio);
   }
@@ -30,7 +31,7 @@ vector<float> convertToScWavetable(vector<float> in) {
   float *dst = out.data();
     for (size_t i = 0; i < framesIn; ++i) {
         float a = src[i];
-        float b = src[(i + 1) % framesIn];
+        float b = src[(i+1) % framesIn];
         *dst++ = 2.f * a - b;
         *dst++ = b - a;
     }

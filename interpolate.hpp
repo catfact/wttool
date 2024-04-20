@@ -24,7 +24,7 @@ float interpLinear(const vector<float> &inBuf, size_t outputFrame,
                    double ratio) {
   double inPos = static_cast<double>(outputFrame) * ratio;
   auto inFrame0 = static_cast<size_t>(inPos);
-  size_t inFrame1 = inFrame0 >= (inBuf.size() - 1) ? inFrame0 : inFrame0 + 1;
+  size_t inFrame1 = (inFrame0 + 1) % inBuf.size();
   auto x = static_cast<float>(inPos - static_cast<double>(inFrame0));
   return inBuf[inFrame0] + x * (inBuf[inFrame1] - inBuf[inFrame0]);
 };
