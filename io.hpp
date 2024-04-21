@@ -29,8 +29,17 @@ vector<float> readFile(const string &path, int &format, int &sr) {
 
 // write mono soundfile, given float vector
 bool writeBuffer(const string &path, vector<float> &buf, int format, int sr) {
+#if 1
+    // at least using SC format, we can expect values outside unity bounds
+    // so it's quite important not to clip or wrap
+  format = SF_FORMAT_WAV | SF_FORMAT_FLOAT;
+#endif
   SndfileHandle file(path, SFM_WRITE, format, 1, sr);
-  file.command(SFC_SET_CLIPPING, NULL, SF_TRUE);
+#if 1
+    file.command(SFC_SET_CLIPPING, NULL, SF_FALSE);
+#else
+        file.command(SFC_SET_CLIPPING, NULL, SF_TRUE);
+#endif
   const float *data = buf.data();
   const size_t frames = buf.size();
   auto nf = file.writef(data, frames);

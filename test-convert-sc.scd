@@ -34,9 +34,11 @@
 
 { ~err.plot }.defer;
 
+
 /////////////
 //////////
 
+/*
 ////... our error from just resampling is small, as expected
 n = 1024;
 ~sf = SoundFile.openRead("~/code/wttool/test-input/AKWF_eguitar_0001.wav".standardizePath);
@@ -51,3 +53,4 @@ b = Signal.newClear(n);
 e = (a-b);
 
 { e.plot; }.defer;
+*/

@@ -38,6 +38,7 @@ vector<float> convertToScWavetable(vector<float> in) {
     }
 
 // hm.. no difference, as expected
+// (this is how it's written in SC sources)
 //    int imax = framesIn - 1;
 //    float val1, val2;
 //    int i;
