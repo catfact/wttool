@@ -31,15 +31,15 @@ int main(int argc, char *argv[]) {
         outFrames = arg_len;
     }
 
+    if (args["zero"].as<bool>()) {
+        inBuf = trimToZeros(inBuf);
+    }
+
     if (args["poweroftwo"].as<bool>()) {
         outFrames = nextPowerOfTwo(outFrames);
     }
 
     std::vector<float> outBuf;
-
-    if (args["zero"].as<bool>()) {
-        inBuf = trimToZeros(inBuf);
-    }
 
     if (outFrames == inFrames) {
         outBuf = inBuf;
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
                 interpFunc = interpHold;
                 break;
             case 1:
-                // std::cout << "linear interpolation\n";
+                std::cout << "linear interpolation\n";
                 interpFunc = interpLinear;
                 break;
             case 2:

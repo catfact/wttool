@@ -19,6 +19,7 @@ vector<float> resample(const vector<float> &inBuf, int outputFrames,
   for (size_t outFrame = 0; outFrame < outputFrames; ++outFrame) {
     outBuf[outFrame] = interpFunc(inBuf, outFrame, ratio);
   }
+  std::cout << "resampled " << inBuf[inBuf.size()-1] << " to " << outBuf[outputFrames-1] << "\n";
   return outBuf;
 }
 
@@ -35,6 +36,23 @@ vector<float> convertToScWavetable(vector<float> in) {
         *dst++ = 2.f * a - b;
         *dst++ = b - a;
     }
+
+// hm.. no difference, as expected
+//    int imax = framesIn - 1;
+//    float val1, val2;
+//    int i;
+//    dst -= 1;
+//        for (i = 0; i < imax; ++i) {
+//            val1 = in[i];
+//            val2 = in[i + 1];
+//            *++dst = 2.f * val1 - val2;
+//            *++dst = val2 - val1;
+//        }
+//        val1 = in[imax];
+//        val2 = in[0];
+//        *++dst = 2.f * val1 - val2;
+//        *++dst = val2 - val1;
+
   return out;
 }
 

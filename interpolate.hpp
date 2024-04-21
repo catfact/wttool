@@ -32,7 +32,7 @@ float interpLinear(const vector<float> &inBuf, size_t outputFrame,
 // interpolate, cubic
 float interpCubic(const vector<float> &inBuf, size_t outputFrame,
                   double ratio) {
-  auto inFrame = static_cast<size_t>(static_cast<double>(outputFrame) * ratio);
+//  auto inFrame = static_cast<size_t>(static_cast<double>(outputFrame) * ratio);
   double inPos = static_cast<double>(outputFrame) * ratio;
   auto inFrame1 = static_cast<size_t>(inPos);
   size_t inFrame0 = inFrame1 > 0 ? inFrame1 - 1 : 0;
